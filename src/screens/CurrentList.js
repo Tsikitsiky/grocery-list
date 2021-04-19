@@ -7,7 +7,7 @@ import {useCurrentList} from '../util/ListManager'
 
 import ListItem, { Separator } from '../components/ListItem'
 
-export default () => {
+export default ({navigation}) => {
     const {list, loading, addItem, removeItem} = useCurrentList();
 
 if(loading) {
@@ -34,6 +34,9 @@ if(loading) {
                 isFavourite={index < 2} 
                 onAddedSwipe={() => removeItem(item.id)}
                 onDeleteSwipe={() => removeItem(item.id)}
+                onRowPress={() => {
+                    navigation.navigate('Item Details')
+                }}
                 />
             )}
             keyExtractor={(item) => item.id} 
