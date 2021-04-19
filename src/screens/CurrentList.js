@@ -35,7 +35,7 @@ if(loading) {
                 onAddedSwipe={() => removeItem(item.id)}
                 onDeleteSwipe={() => removeItem(item.id)}
                 onRowPress={() => {
-                    navigation.navigate('Item Details')
+                    navigation.navigate('Item Details', {item})
                 }}
                 />
             )}
