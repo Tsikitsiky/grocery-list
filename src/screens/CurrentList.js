@@ -1,14 +1,14 @@
 import React from 'react'
 
-import { View, Text, SafeAreaView, ScrollView, FlatList, KeyboardAvoidingView, ActivityIndicator } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, SectionList, KeyboardAvoidingView, ActivityIn, SectionListdicator } from 'react-native'
 import AddItem from '../components/AddItem';
 import {useCurrentList} from '../util/ListManager'
 
 
-import ListItem, { Separator } from '../components/ListItem'
+import ListItem, { SectionHeader, Separator } from '../components/ListItem'
 
 export default ({navigation}) => {
-    const {list, loading, addItem, removeItem} = useCurrentList();
+    const {list, loading, addItem, removeItem, addToCart, cart, addToFavourite} = useCurrentList();
 
 if(loading) {
     return (
@@ -25,14 +25,21 @@ if(loading) {
             style={{ flex: 1 }} 
             behavior="padding"
             >
-            <FlatList 
-            data={list}
+            <SectionList
+            sections={[
+                {title: 'List', data: list},
+                {title: 'Cart', data: cart},
+            ]} 
+            //data={list}
+            renderSectionHeader={({ section }) => (
+                <SectionHeader title={section.title} />
+            )}
             renderItem={({item, index}) => (
                 <ListItem 
                 name={item.name}
-                onFavouritePress={() => alert('todo: handle favorite')}
-                isFavourite={index < 2} 
-                onAddedSwipe={() => removeItem(item.id)}
+                onFavouritePress={() => addToFavourite(item)}
+                isFavourite={item.isFavourited} 
+                onAddedSwipe={() => addToCart(item)}
                 onDeleteSwipe={() => removeItem(item.id)}
                 onRowPress={() => {
                     navigation.navigate('Item Details', {item})
